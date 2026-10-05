@@ -10,6 +10,19 @@ Delete the default address, re-add it, answer **"Not now"** to "Make this your d
 
 Meanwhile the list screen looked fine the whole time: it badged the first remaining address as "Default" via a display fallback, hiding the dangling reference.
 
+## How to run
+
+**In Xcode (demo app + tests):**
+
+1. Open `Demo/Demo.xcodeproj` (Xcode 16+; it references this package locally).
+2. Pick an iPhone simulator (iOS 17+) and press **⌘R**.
+3. Use the **Naive / Fixed** switch at the top, then: swipe to delete **Home** (the default), tap **Re-add Home**, answer **"Not now"**.
+   - **Naive:** after the delete the list badges Office, but the *Server state* section shows the default id in red, pointing at nothing. After re-adding, Home comes back with the **Default** badge even though you said "Not now".
+   - **Fixed:** the delete also moves the server default to Office, so the re-added Home stays a normal address.
+4. Press **⌘U** to run the package's test suite (the `Demo` scheme includes `StaleDefaultReferenceTests`). Tests asserting the Naive bug *pass* — they document that the bug exists.
+
+**From the command line:** the library is plain Swift (no UIKit), so `swift test` works on macOS too.
+
 ## What's inside
 
 - `Sources/StaleDefaultReference/FakeAddressServer.swift` — in-memory backend with the contract above (content-derived ids, default not cleared on delete, a synthetic "Pick up in store" entry with id 0).
