@@ -83,7 +83,7 @@ private struct AddressRowView: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text(row.address.name).font(.body)
-                Text(row.address.isSynthetic ? "id 0 · system entry" : "id \(row.address.id) · \(row.address.street), \(row.address.city)")
+                Text(row.address.isSynthetic ? "id 0 · system entry" : "id \(String(row.address.id)) · \(row.address.street), \(row.address.city)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
