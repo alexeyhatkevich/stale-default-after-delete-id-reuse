@@ -19,6 +19,7 @@ Meanwhile the list screen looked fine the whole time: it badged the first remain
 3. Use the **Naive / Fixed** switch at the top, then: swipe to delete **Home** (the default), tap **Re-add Home**, answer **"Not now"**.
    - **Naive:** after the delete the list badges Office, but the *Server state* section shows the default id in red, pointing at nothing. After re-adding, Home comes back with the **Default** badge even though you said "Not now".
    - **Fixed:** the delete also moves the server default to Office, so the re-added Home stays a normal address.
+   - **Scripted run:** launch arguments `-mode naive|fixed` and `-autorun 1` (deletes Home, re-adds it and answers "Not now"), e.g. `xcrun simctl launch booted com.alexeyhatkevich.stale-default-after-delete-id-reuse.demo -mode fixed -autorun 1`. In Xcode, add them under *Edit Scheme > Run > Arguments*.
 4. Press **⌘U** to run the package's test suite (the `Demo` scheme includes `StaleDefaultReferenceTests`). Tests asserting the Naive bug *pass* — they document that the bug exists.
 
 **From the command line:** the library is plain Swift (no UIKit), so `swift test` works on macOS too.

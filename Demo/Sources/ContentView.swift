@@ -52,6 +52,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Stale default")
+            .task { await model.autorunIfRequested() }
             .confirmationDialog(
                 "Make this your default?",
                 isPresented: Binding(get: { model.pendingPrompt != nil },

@@ -24,7 +24,22 @@ final class DemoModel {
     private var server = FakeAddressServer()
     private var book: any AddressBook { mode == .naive ? NaiveAddressBook(server: server) : FixedAddressBook(server: server) }
 
-    init() { reset() }
+    init() {
+        // Launch argument for scripted runs: `-mode fixed` starts in the Fixed client.
+        if UserDefaults.standard.string(forKey: "mode")?.lowercased() == "fixed" { mode = .fixed }
+        reset()
+    }
+
+    /// Launch argument `-autorun 1`: delete Home, re-add it, answer "Not now".
+    func autorunIfRequested() async {
+        guard UserDefaults.standard.bool(forKey: "autorun") else { return }
+        try? await Task.sleep(for: .milliseconds(600))
+        if let home = rows.first(where: { $0.address.name == "Home" })?.address { delete(home) }
+        try? await Task.sleep(for: .milliseconds(600))
+        reAddHome()
+        try? await Task.sleep(for: .milliseconds(900))
+        answer(makeDefault: false)
+    }
 
     func reset() {
         server = FakeAddressServer()
